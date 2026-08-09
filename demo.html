@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>REROLL — Prototype Overview</title>
+<style>
+  :root { color-scheme: light dark; --fg: #1c1c1e; --bg: #fff; --muted: #8e8e93; --line: #e5e5ea; --card: #f7f7f9; --link: #0a58ca; }
+  @media (prefers-color-scheme: dark) {
+    :root { --fg: #e5e5ea; --bg: #1c1c1e; --muted: #98989d; --line: #3a3a3c; --card: #2c2c2e; --link: #6ea8ff; }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    max-width: 48rem; margin: 0 auto; padding: 3rem 1.25rem 4rem;
+    line-height: 1.7; color: var(--fg); background: var(--bg);
+  }
+  a { color: var(--link); }
+  h1 { font-size: 2.25rem; letter-spacing: .08em; margin: 0 0 .25rem; }
+  h2 { font-size: 1.15rem; margin: 2.75rem 0 .75rem; padding-bottom: .4rem; border-bottom: 1px solid var(--line); }
+  h3 { font-size: 1rem; margin: 1.75rem 0 .5rem; }
+  .tagline { color: var(--muted); margin: 0 0 1.5rem; font-size: 1.05rem; }
+  .status {
+    display: inline-block; padding: .35rem .75rem; border-radius: 999px;
+    background: var(--card); border: 1px solid var(--line);
+    font-size: .85rem; color: var(--muted); margin-bottom: 1.5rem;
+  }
+  .lede { font-size: 1.05rem; }
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: .92rem; }
+  th, td { text-align: left; padding: .6rem .7rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; font-size: .82rem; text-transform: uppercase; letter-spacing: .04em; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .88em;
+         background: var(--card); padding: .1em .35em; border-radius: 4px; }
+  .table-wrap { overflow-x: auto; }
+  .shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: .9rem; margin: 1.25rem 0; }
+  .shots figure { margin: 0; }
+  .shots img { width: 100%; height: auto; aspect-ratio: 9 / 19.5; object-fit: cover; border-radius: 14px;
+               border: 1px solid var(--line); display: block; background: var(--card);
+               font-size: .75rem; color: var(--muted); }
+  .shots figcaption { font-size: .8rem; color: var(--muted); margin-top: .45rem; text-align: center; }
+  .shot { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in;
+          border-radius: 14px; transition: transform .15s ease, opacity .15s ease; }
+  .shot:hover { transform: translateY(-2px); opacity: .88; }
+  .shot:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; }
+  .zoom-hint { font-size: .82rem; color: var(--muted); text-align: center; margin: -.25rem 0 0; }
+
+  dialog.lightbox { border: 0; padding: 0; background: transparent; overflow: visible; cursor: zoom-out; }
+  dialog.lightbox[open] { position: fixed; inset: 0; width: 100vw; height: 100dvh; max-width: 100vw;
+                          max-height: 100dvh; margin: 0; display: flex;
+                          align-items: center; justify-content: center; }
+  dialog.lightbox::backdrop { background: rgba(0,0,0,.88); }
+  dialog.lightbox img { display: block; width: auto; height: auto;
+                        max-width: 94vw; max-height: 92vh; border-radius: 12px; }
+  dialog.lightbox figcaption { color: #f2f2f7; text-align: center; font-size: .85rem; margin-top: .6rem; }
+  .lb-close { position: fixed; top: max(.75rem, env(safe-area-inset-top)); right: .75rem;
+              width: 2.5rem; height: 2.5rem; border-radius: 50%; border: 0;
+              background: rgba(255,255,255,.15); color: #fff; font-size: 1.4rem; line-height: 1;
+              cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .lb-close:hover { background: rgba(255,255,255,.28); }
+  .lb-close:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) { .shot { transition: none; } .shot:hover { transform: none; } }
+  video { width: 100%; aspect-ratio: 16 / 9; border-radius: 14px; border: 1px solid var(--line); background: #000; }
+  .facts { list-style: none; padding: 0; margin: 1rem 0; }
+  .facts li { padding: .5rem 0; border-bottom: 1px solid var(--line); display: flex; gap: 1rem; flex-wrap: wrap; }
+  .facts b { min-width: 11rem; font-weight: 600; }
+  .note { background: var(--card); border-left: 3px solid var(--muted); padding: .85rem 1rem; margin: 1.25rem 0; font-size: .95rem; }
+  .caveat { font-size: .9rem; color: var(--muted); }
+  footer { margin-top: 3.5rem; padding-top: 1.25rem; border-top: 1px solid var(--line);
+           font-size: .82rem; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<h1>REROLL</h1>
+<p class="tagline">Discover hidden roguelike and roguelite gems on Steam.</p>
+<p class="status">Working prototype &middot; iOS 17+ &middot; Not yet released</p>
+
+<p class="lede">
+REROLL is a swipe-based discovery app for roguelike and roguelite games. Instead of browsing
+best-seller lists dominated by titles everyone already owns, players flip through a daily deck of
+cards and surface games that are gaining momentum but have not broken through yet.
+</p>
+
+<p>
+This page exists to accompany a commercial licensing inquiry to IGDB. It describes what the app is,
+what data it uses today, and exactly what we would like to license.
+</p>
+
+<h2>Demo</h2>
+
+<!-- TODO: assets/demo/reroll-demo.mp4 と poster.jpg を置いたら、この下のコメントを外す。
+     （ファイルが無い間は黒い空枠が出るだけなので隠してある）
+<video controls playsinline preload="metadata" poster="assets/demo/poster.jpg">
+  <source src="assets/demo/reroll-demo.mp4" type="video/mp4">
+  Your browser does not support embedded video.
+</video>
+-->
+
+<div class="shots">
+  <figure>
+    <button class="shot" type="button" data-full="assets/demo/01-deck@2x.jpg" data-caption="Daily deck">
+      <img src="assets/demo/01-deck.jpg" alt="Swipe deck screen" width="600" height="1304" loading="lazy">
+    </button>
+    <figcaption>Daily deck</figcaption>
+  </figure>
+  <figure>
+    <button class="shot" type="button" data-full="assets/demo/02-detail@2x.jpg" data-caption="Detail sheet">
+      <img src="assets/demo/02-detail.jpg" alt="Game detail sheet" width="600" height="1304" loading="lazy">
+    </button>
+    <figcaption>Detail sheet</figcaption>
+  </figure>
+  <figure>
+    <button class="shot" type="button" data-full="assets/demo/03-deepdive@2x.jpg" data-caption="Player reviews">
+      <img src="assets/demo/03-deepdive.jpg" alt="Deep dive with player reviews" width="600" height="1304" loading="lazy">
+    </button>
+    <figcaption>Player reviews</figcaption>
+  </figure>
+  <figure>
+    <button class="shot" type="button" data-full="assets/demo/04-list@2x.jpg" data-caption="Favorites">
+      <img src="assets/demo/04-list.jpg" alt="Favorites list" width="600" height="1304" loading="lazy">
+    </button>
+    <figcaption>Favorites</figcaption>
+  </figure>
+</div>
+
+<p class="zoom-hint">Tap any screenshot to enlarge.</p>
+
+<h2>The discovery model</h2>
+
+<p>
+The core of the product is a ranking signal we built and validated ourselves, not a generic
+popularity chart:
+</p>
+
+<ul class="facts">
+  <li><b>Discovery score</b><span>Reviews received in the last 7 days &divide; total lifetime reviews. A game with sudden recent momentum ranks above a game with a large but static review count.</span></li>
+  <li><b>Eligibility window</b><span>100&ndash;5,000 total reviews. The lower bound filters out titles with too little signal; the upper bound excludes games that are already well known.</span></li>
+  <li><b>No rating filter</b><span>Positive-review percentage is displayed but never used to filter. Divisive games are part of the point.</span></li>
+  <li><b>Catalog size</b><span>Approximately 2,290 roguelike / roguelite titles are currently tracked. The figure moves with each nightly rebuild.</span></li>
+  <li><b>Refresh</b><span>Rebuilt nightly by an automated batch job (GitHub Actions).</span></li>
+</ul>
+
+<p class="caveat">
+These parameters are still being tuned. The thresholds, and the way cards are selected for each
+deck, are likely to change both before and after release. The figures above describe the current
+build rather than a fixed specification.
+</p>
+
+<h2>Data sources today</h2>
+
+<p>
+The prototype is currently built on Steam data: store search pages for the catalog, the
+<code>appreviews</code> endpoint for review statistics, and <code>appdetails</code> for descriptions,
+screenshots and trailers. Cover artwork is Steam's library capsule imagery.
+</p>
+
+<p>
+We are contacting IGDB <strong>before release</strong> because we would rather have the artwork and
+metadata layer licensed under agreed commercial terms from day one than sort it out afterwards.
+</p>
+
+<h2>What we would like to license from IGDB</h2>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>Data</th><th>Where it appears</th><th>Why IGDB</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Cover artwork</td>
+      <td>Full-bleed image on every deck card &mdash; the primary visual of the app</td>
+      <td>A consistent portrait aspect ratio across the whole catalog, under clear commercial terms &mdash; which is why we are approaching you before release rather than after.</td>
+    </tr>
+    <tr>
+      <td>Game metadata<br>(name, release date, summary, genres, themes, keywords)</td>
+      <td>Card overlay and detail sheet</td>
+      <td>Cleaner normalization across titles, and multilingual summaries for our planned English release.</td>
+    </tr>
+    <tr>
+      <td>Screenshots and videos</td>
+      <td>Detail sheet carousel</td>
+      <td>Licensed media for the deep-dive view.</td>
+    </tr>
+    <tr>
+      <td>Involved companies</td>
+      <td>Detail sheet credits</td>
+      <td>Attribution for small studios, which is central to the product's purpose.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="note">
+<strong>Hybrid approach.</strong> We would continue to derive the discovery score from Steam review
+statistics, which IGDB does not provide. IGDB would supply the artwork and metadata layer. The two
+are complementary rather than overlapping.
+</div>
+
+<h2>Expected request volume</h2>
+
+<ul class="facts">
+  <li><b>Client-side calls</b><span><strong>None.</strong> The iOS app never contacts IGDB directly.</span></li>
+  <li><b>Server-side calls</b><span>A single nightly batch job resolves metadata for the tracked catalog. With batched queries this is on the order of tens of requests per night, not thousands.</span></li>
+  <li><b>Delivery</b><span>The batch output is a single static JSON file served over HTTPS. The app downloads and caches it. Request volume therefore does not scale with user count.</span></li>
+  <li><b>Attribution</b><span>We will display IGDB attribution wherever your terms require it.</span></li>
+</ul>
+
+<h2>Product and business status</h2>
+
+<ul class="facts">
+  <li><b>Stage</b><span>Feature-complete prototype. Public release pending.</span></li>
+  <li><b>Team</b><span>One independent developer, based in Japan.</span></li>
+  <li><b>Platform</b><span>iOS 17+, native SwiftUI.</span></li>
+  <li><b>Launch model</b><span>Free at launch, with no advertising and no paid tier. The first goal is simply to find out whether there is an audience.</span></li>
+  <li><b>Future monetization</b><span>Not yet decided. If the app finds an audience, advertising is the most likely direction. We would rather agree commercial terms with you before that point than have to renegotiate afterwards, which is why we are writing now rather than after release.</span></li>
+</ul>
+
+<h2>Contact</h2>
+
+<p>
+<a href="mailto:getreroll@gmail.com">getreroll@gmail.com</a>
+</p>
+
+<footer>
+REROLL is an unofficial app and is not affiliated with or endorsed by Valve Corporation or Steam.
+Game data and artwork shown in the prototype are provided via Steam; all trademarks and images are
+the property of their respective owners.
+<br><br>
+<a href="index.html">Home</a> &middot; <a href="privacy-en.html">Privacy Policy</a>
+</footer>
+
+<dialog class="lightbox" id="lightbox" aria-label="Enlarged screenshot">
+  <button class="lb-close" id="lightbox-close" type="button" aria-label="Close">&times;</button>
+  <figure style="margin:0">
+    <img id="lightbox-img" src="" alt="">
+    <figcaption id="lightbox-cap"></figcaption>
+  </figure>
+</dialog>
+
+<script>
+(function () {
+  var dlg = document.getElementById('lightbox');
+  var img = document.getElementById('lightbox-img');
+  var cap = document.getElementById('lightbox-cap');
+  if (!dlg || typeof dlg.showModal !== 'function') return;  // 未対応ブラウザは通常表示のまま
+
+  function close() {
+    if (dlg.open) dlg.close();
+    img.removeAttribute('src');   // メモリを戻す。close イベントに依存しない
+  }
+
+  document.querySelectorAll('.shot').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var thumb = btn.querySelector('img');
+      img.src = btn.dataset.full;
+      img.alt = thumb ? thumb.alt : '';
+      cap.textContent = btn.dataset.caption || '';
+      dlg.showModal();
+    });
+  });
+
+  // 画像・背景・×ボタン、どこをクリックしても閉じる
+  dlg.addEventListener('click', close);
+  // Esc。ネイティブの close-watcher が効かない環境があるため明示的に処理する
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && dlg.open) { e.preventDefault(); close(); }
+  }, true);
+  // ネイティブに閉じられた場合の取りこぼし対策
+  dlg.addEventListener('close', function () { img.removeAttribute('src'); });
+})();
+</script>
+
+</body>
+</html>
