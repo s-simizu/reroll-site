@@ -87,8 +87,8 @@ gaining momentum but have not broken through yet, instead of the best-sellers ev
 </p>
 
 <p>
-This page exists to accompany a commercial licensing inquiry to IGDB. It describes what the app is,
-what data it uses today, and exactly what we would like to license.
+This page exists to accompany a commercial partnership inquiry to IGDB. It describes what the app is,
+what data it uses today, and exactly what we would like to source from IGDB.
 </p>
 
 <h2>Demo</h2>
@@ -136,9 +136,9 @@ popularity chart:
 
 <ul class="facts">
   <li><b>Discovery score</b><span>Reviews received in the last 7 days &divide; total lifetime reviews. A game with sudden recent momentum ranks above a game with a large but static review count.</span></li>
-  <li><b>Eligibility window</b><span>100&ndash;5,000 total reviews. The lower bound filters out titles with too little signal; the upper bound excludes games that are already well known.</span></li>
+  <li><b>Eligibility</b><span>100+ total reviews. The lower bound filters out titles with too little signal; well-known games sink naturally because the score divides by the lifetime total.</span></li>
   <li><b>No rating filter</b><span>Positive-review percentage is displayed but never used to filter. Divisive games are part of the point.</span></li>
-  <li><b>Catalog size</b><span>Approximately 2,290 roguelike / roguelite titles are currently tracked. The figure moves with each nightly rebuild.</span></li>
+  <li><b>Catalog size</b><span>Approximately 2,400 roguelike / roguelite titles are currently tracked. The figure moves with each nightly rebuild.</span></li>
   <li><b>Refresh</b><span>Rebuilt nightly by an automated batch job (GitHub Actions).</span></li>
 </ul>
 
@@ -158,10 +158,10 @@ screenshots and trailers. Cover artwork is Steam's library capsule imagery.
 
 <p>
 We are contacting IGDB <strong>before release</strong> because we would rather have the artwork and
-metadata layer licensed under agreed commercial terms from day one than sort it out afterwards.
+metadata layer come through a formal partnership from day one than sort it out afterwards.
 </p>
 
-<h2>What we would like to license from IGDB</h2>
+<h2>What we would like to source from IGDB</h2>
 
 <div class="table-wrap">
 <table>
@@ -172,7 +172,7 @@ metadata layer licensed under agreed commercial terms from day one than sort it 
     <tr>
       <td>Cover artwork</td>
       <td>Full-bleed image on every deck card &mdash; the primary visual of the app</td>
-      <td>A consistent portrait aspect ratio across the whole catalog, under clear commercial terms &mdash; which is why we are approaching you before release rather than after.</td>
+      <td>A consistent portrait aspect ratio across the whole catalog, within a formal partnership &mdash; which is why we are approaching you before release rather than after.</td>
     </tr>
     <tr>
       <td>Game metadata<br>(name, release date, summary, genres, themes, keywords)</td>
@@ -182,7 +182,7 @@ metadata layer licensed under agreed commercial terms from day one than sort it 
     <tr>
       <td>Screenshots and videos</td>
       <td>Detail sheet carousel</td>
-      <td>Licensed media for the deep-dive view.</td>
+      <td>Consistent, well-organized media for the deep-dive view.</td>
     </tr>
     <tr>
       <td>Involved companies</td>
@@ -202,7 +202,7 @@ are complementary rather than overlapping.
 <h2>Expected request volume</h2>
 
 <ul class="facts">
-  <li><b>Client-side calls</b><span><strong>None.</strong> The iOS app never contacts IGDB directly.</span></li>
+  <li><b>Client-side calls</b><span><strong>No API calls.</strong> The iOS app never calls the IGDB API; cover artwork and media would be displayed from the IGDB image CDN.</span></li>
   <li><b>Server-side calls</b><span>A single nightly batch job resolves metadata for the tracked catalog. With batched queries this is on the order of tens of requests per night, not thousands.</span></li>
   <li><b>Delivery</b><span>The batch output is a single static JSON file served over HTTPS. The app downloads and caches it. Request volume therefore does not scale with user count.</span></li>
   <li><b>Attribution</b><span>We will display IGDB attribution wherever your terms require it.</span></li>
