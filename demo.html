@@ -60,7 +60,11 @@
   .lb-close:hover { background: rgba(255,255,255,.28); }
   .lb-close:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
   @media (prefers-reduced-motion: reduce) { .shot { transition: none; } .shot:hover { transform: none; } }
-  video { width: 100%; aspect-ratio: 16 / 9; border-radius: 14px; border: 1px solid var(--line); background: #000; }
+  /* 収録元は実機 iPhone の縦画面（1260x2736）。16:9 の箱に入れると左右が
+     激しく黒帯になるため、端末比のまま中央に置いて幅を抑える。 */
+  video { display: block; width: 100%; max-width: 300px; margin: 1.25rem auto 0;
+          aspect-ratio: 1260 / 2736; border-radius: 14px;
+          border: 1px solid var(--line); background: #000; }
   .facts { list-style: none; padding: 0; margin: 1rem 0; }
   .facts li { padding: .5rem 0; border-bottom: 1px solid var(--line); display: flex; gap: 1rem; flex-wrap: wrap; }
   .facts b { min-width: 11rem; font-weight: 600; }
@@ -89,13 +93,10 @@ what data it uses today, and exactly what we would like to license.
 
 <h2>Demo</h2>
 
-<!-- TODO: assets/demo/reroll-demo.mp4 と poster.jpg を置いたら、この下のコメントを外す。
-     （ファイルが無い間は黒い空枠が出るだけなので隠してある）
 <video controls playsinline preload="metadata" poster="assets/demo/poster.jpg">
   <source src="assets/demo/reroll-demo.mp4" type="video/mp4">
   Your browser does not support embedded video.
 </video>
--->
 
 <div class="shots">
   <figure>
