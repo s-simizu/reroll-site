@@ -19,7 +19,6 @@
   a { color: var(--link); }
   h1 { font-size: 2.25rem; letter-spacing: .08em; margin: 0 0 .25rem; }
   h2 { font-size: 1.15rem; margin: 2.75rem 0 .75rem; padding-bottom: .4rem; border-bottom: 1px solid var(--line); }
-  h3 { font-size: 1rem; margin: 1.75rem 0 .5rem; }
   .tagline { color: var(--muted); margin: 0 0 1.5rem; font-size: 1.05rem; }
   .status {
     display: inline-block; padding: .35rem .75rem; border-radius: 999px;
@@ -27,12 +26,6 @@
     font-size: .85rem; color: var(--muted); margin-bottom: 1.5rem;
   }
   .lede { font-size: 1.05rem; }
-  table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: .92rem; }
-  th, td { text-align: left; padding: .6rem .7rem; border-bottom: 1px solid var(--line); vertical-align: top; }
-  th { color: var(--muted); font-weight: 600; font-size: .82rem; text-transform: uppercase; letter-spacing: .04em; }
-  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .88em;
-         background: var(--card); padding: .1em .35em; border-radius: 4px; }
-  .table-wrap { overflow-x: auto; }
   .shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: .9rem; margin: 1.25rem 0; }
   .shots figure { margin: 0; }
   .shots img { width: 100%; height: auto; aspect-ratio: 9 / 19.5; object-fit: cover; border-radius: 14px;
@@ -68,7 +61,6 @@
   .facts { list-style: none; padding: 0; margin: 1rem 0; }
   .facts li { padding: .5rem 0; border-bottom: 1px solid var(--line); display: flex; gap: 1rem; flex-wrap: wrap; }
   .facts b { min-width: 11rem; font-weight: 600; }
-  .note { background: var(--card); border-left: 3px solid var(--muted); padding: .85rem 1rem; margin: 1.25rem 0; font-size: .95rem; }
   .caveat { font-size: .9rem; color: var(--muted); }
   footer { margin-top: 3.5rem; padding-top: 1.25rem; border-top: 1px solid var(--line);
            font-size: .82rem; color: var(--muted); }
@@ -77,7 +69,7 @@
 <body>
 
 <h1>REROLL</h1>
-<p class="tagline">Discover hidden roguelike and roguelite gems on Steam.</p>
+<p class="tagline">Discover hidden roguelike and roguelite gems that are quietly catching on.</p>
 <p class="status">Working prototype &middot; iOS 17+ &middot; Not yet released</p>
 
 <p class="lede">
@@ -87,8 +79,8 @@ gaining momentum but have not broken through yet, instead of the best-sellers ev
 </p>
 
 <p>
-This page exists to accompany a commercial partnership inquiry to IGDB. It describes what the app is,
-what data it uses today, and exactly what we would like to source from IGDB.
+This page is an overview of the app for partners and press: what it is, how it behaves, and where
+the project stands.
 </p>
 
 <h2>Demo</h2>
@@ -100,10 +92,10 @@ what data it uses today, and exactly what we would like to source from IGDB.
 
 <div class="shots">
   <figure>
-    <button class="shot" type="button" data-full="assets/demo/01-deck@2x.jpg" data-caption="Daily deck">
-      <img src="assets/demo/01-deck.jpg" alt="Swipe deck screen" width="600" height="1304" loading="lazy">
+    <button class="shot" type="button" data-full="assets/demo/01-deck@2x.jpg" data-caption="Daily lineup">
+      <img src="assets/demo/01-deck.jpg" alt="Swipe screen" width="600" height="1304" loading="lazy">
     </button>
-    <figcaption>Daily deck</figcaption>
+    <figcaption>Daily lineup</figcaption>
   </figure>
   <figure>
     <button class="shot" type="button" data-full="assets/demo/02-detail@2x.jpg" data-caption="Detail sheet">
@@ -135,8 +127,8 @@ popularity chart:
 </p>
 
 <ul class="facts">
-  <li><b>Discovery score</b><span>Reviews received in the last 7 days &divide; total lifetime reviews. A game with sudden recent momentum ranks above a game with a large but static review count.</span></li>
-  <li><b>Eligibility</b><span>100+ total reviews. The lower bound filters out titles with too little signal; well-known games sink naturally because the score divides by the lifetime total.</span></li>
+  <li><b>Discovery score</b><span>A momentum signal. Games that have only just started to get attention rank above titles with a large but static following.</span></li>
+  <li><b>Eligibility</b><span>100+ total reviews. The lower bound filters out titles with too little signal to judge.</span></li>
   <li><b>No rating filter</b><span>Positive-review percentage is displayed but never used to filter. Divisive games are part of the point.</span></li>
   <li><b>Catalog size</b><span>Approximately 2,400 roguelike / roguelite titles are currently tracked. The figure moves with each nightly rebuild.</span></li>
   <li><b>Refresh</b><span>Rebuilt nightly by an automated batch job (GitHub Actions).</span></li>
@@ -144,68 +136,16 @@ popularity chart:
 
 <p class="caveat">
 These parameters are still being tuned. The thresholds, and the way cards are selected for each
-deck, are likely to change both before and after release. The figures above describe the current
-build rather than a fixed specification.
+day's lineup, are likely to change both before and after release. The figures above describe the
+current build rather than a fixed specification.
 </p>
 
-<h2>Data sources today</h2>
-
-<p>
-The prototype is currently built on Steam data: store search pages for the catalog, the
-<code>appreviews</code> endpoint for review statistics, and <code>appdetails</code> for descriptions,
-screenshots and trailers. Cover artwork is Steam's library capsule imagery.
-</p>
-
-<p>
-We are contacting IGDB <strong>before release</strong> because we would rather have the artwork and
-metadata layer come through a formal partnership from day one than sort it out afterwards.
-</p>
-
-<h2>What we would like to source from IGDB</h2>
-
-<div class="table-wrap">
-<table>
-  <thead>
-    <tr><th>Data</th><th>Where it appears</th><th>Why IGDB</th></tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Cover artwork</td>
-      <td>Full-bleed image on every deck card &mdash; the primary visual of the app</td>
-      <td>A consistent portrait aspect ratio across the whole catalog, within a formal partnership &mdash; which is why we are approaching you before release rather than after.</td>
-    </tr>
-    <tr>
-      <td>Game metadata<br>(name, release date, summary, genres, themes, keywords)</td>
-      <td>Card overlay and detail sheet</td>
-      <td>Cleaner normalization across titles, and multilingual summaries for our planned English release.</td>
-    </tr>
-    <tr>
-      <td>Screenshots and videos</td>
-      <td>Detail sheet carousel</td>
-      <td>Consistent, well-organized media for the deep-dive view.</td>
-    </tr>
-    <tr>
-      <td>Involved companies</td>
-      <td>Detail sheet credits</td>
-      <td>Attribution for small studios, which is central to the product's purpose.</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-<div class="note">
-<strong>Hybrid approach.</strong> We would continue to derive the discovery score from Steam review
-statistics, which IGDB does not provide. IGDB would supply the artwork and metadata layer. The two
-are complementary rather than overlapping.
-</div>
-
-<h2>Expected request volume</h2>
+<h2>Data</h2>
 
 <ul class="facts">
-  <li><b>Client-side calls</b><span><strong>No API calls.</strong> The iOS app never calls the IGDB API; cover artwork and media would be displayed from the IGDB image CDN.</span></li>
-  <li><b>Server-side calls</b><span>A single nightly batch job resolves metadata for the tracked catalog. With batched queries this is on the order of tens of requests per night, not thousands.</span></li>
-  <li><b>Delivery</b><span>The batch output is a single static JSON file served over HTTPS. The app downloads and caches it. Request volume therefore does not scale with user count.</span></li>
-  <li><b>Attribution</b><span>We will display IGDB attribution wherever your terms require it.</span></li>
+  <li><b>Source</b><span>Game information, images and reviews come from Steam, with attribution as required.</span></li>
+  <li><b>Delivery</b><span>A nightly batch job rebuilds the catalog and publishes it as a single static JSON file served over HTTPS. The app downloads and caches that file, so catalog traffic does not scale with user count.</span></li>
+  <li><b>Privacy</b><span>No ads, no advertising identifiers, and no third-party SDKs. Usage measurement is anonymous. See the <a href="privacy-en.html">privacy policy</a> for what the app talks to and what it sends.</span></li>
 </ul>
 
 <h2>Product and business status</h2>
@@ -215,7 +155,7 @@ are complementary rather than overlapping.
   <li><b>Team</b><span>One independent developer, based in Japan.</span></li>
   <li><b>Platform</b><span>iOS 17+, native SwiftUI.</span></li>
   <li><b>Launch model</b><span>Free at launch, with no advertising and no paid tier. The first goal is simply to find out whether there is an audience.</span></li>
-  <li><b>Monetization</b><span>Advertising is planned once there is an audience, and a commercial agreement with you is a precondition for it. That is why we are writing now rather than after release.</span></li>
+  <li><b>Monetization</b><span>Advertising is under consideration once there is an audience. Nothing is planned for launch.</span></li>
 </ul>
 
 <h2>Contact</h2>
